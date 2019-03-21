@@ -1,0 +1,184 @@
+package homework.zad2;
+
+public class Klamka {
+	private boolean czyKluczyk = false;
+
+	public boolean isCzyKluczyk() {
+		return czyKluczyk;
+	}
+	public void setCzyKluczyk(boolean czyKluczyk) {
+		this.czyKluczyk = czyKluczyk;
+	}
+	public String stan() {
+		return czyKluczyk ? "z kluczem": "bez klucza";
+	}
+  
+  
+  package homework.zad2;
+
+public class Okno {
+	private int dlugosc;
+	private int wysokosc;
+	private int liczbaSkrzydel;
+	private Skrzydlo[] skrzydla;
+	
+	public Okno(int d, int w, int lSkrzydel){
+		dlugosc = d;
+		wysokosc = w;
+		liczbaSkrzydel = lSkrzydel;
+		skrzydla = new Skrzydlo[lSkrzydel];
+		for(int i=0;i<lSkrzydel;i++){
+			skrzydla[i] = new Skrzydlo(d/lSkrzydel,w, new Klamka());
+		}
+	}
+	public Okno(int d, int w, Skrzydlo[] sk){
+		dlugosc = d;
+		wysokosc = w;
+		liczbaSkrzydel = sk.length;
+		skrzydla = sk;
+	}		
+	public Okno(int d, int w){
+		this(d,w,1);
+	}	
+	public Okno(){
+		this(1200,1500,1);
+	}
+	
+	public int getDlugosc() {
+		return dlugosc;
+	}
+	public void setDlugosc(int dlugosc) {
+		this.dlugosc = dlugosc;
+		for(int i=0;i<liczbaSkrzydel;i++){
+			skrzydla[i].setDlugosc(dlugosc/liczbaSkrzydel);
+		}
+	}
+	
+	public int getWysokosc() {
+		return wysokosc;
+	}
+	public void setWysokosc(int wysokosc) {
+		this.wysokosc = wysokosc;
+		for(int i=0;i<liczbaSkrzydel;i++){
+			skrzydla[i].setWysokosc(wysokosc);
+		}
+	}
+	
+	public int getLiczbaSkrzydel() {
+		return liczbaSkrzydel;
+	}
+	public Skrzydlo[] getSkrzydla() {
+		return skrzydla;
+	}
+
+	public void otworz(){
+		for(int i=0;i<liczbaSkrzydel;i++){
+			skrzydla[i].setOtwarte(true);
+		}
+	}
+	public void otworz(int nrSkrzydla){
+		if(nrSkrzydla > skrzydla.length) return;
+		
+		skrzydla[nrSkrzydla].setOtwarte(true);
+		
+	}
+	public void zamknij(){
+		for(int i=0;i<liczbaSkrzydel;i++){
+			skrzydla[i].setOtwarte(false);
+		}
+	}
+	public void zamknij(int nrSkrzydla){
+		if(nrSkrzydla > skrzydla.length) return;
+		
+		skrzydla[nrSkrzydla].setOtwarte(false);
+		
+	}
+	public void wypiszStan() {
+		String tekst = "";
+		for(int i=0;i<liczbaSkrzydel;i++){
+			tekst += "["+skrzydla[i].stan()+"]";
+		}
+		System.out.println(tekst);
+		
+	}
+	
+}
+
+
+package homework.zad2;
+
+public class Skrzydlo {
+	private int dlugosc;
+	private int wysokosc;
+	private Klamka klamka;
+	private boolean otwarte = false;
+
+	public Skrzydlo(int dlugosc, int wysokosc) {
+		this.dlugosc = dlugosc;
+		this.wysokosc = wysokosc;
+	}
+	public Skrzydlo(int dlugosc, int wysokosc, Klamka klamka) {
+		this(dlugosc,wysokosc);
+		this.klamka = klamka; 
+	}
+
+	public int getDlugosc() {
+		return dlugosc;
+	}
+	public void setDlugosc(int dlugosc) {
+		this.dlugosc = dlugosc;
+	}
+	public int getWysokosc() {
+		return wysokosc;
+	}
+	public void setWysokosc(int wysokosc) {
+		this.wysokosc = wysokosc;
+	}
+	public Klamka getKlamka() {
+		return klamka;
+	}
+	public void setKlamka(Klamka klamka) {
+		this.klamka = klamka;
+	}
+	public boolean isOtwarte() {
+		return otwarte;
+	}
+	public void setOtwarte(boolean otwarte) {
+		this.otwarte = otwarte;
+	}
+	public String stan() {
+		String wymiary = dlugosc+"x"+wysokosc;
+		String otwarcie = otwarte ? "otwarte" : "zamkniete";
+		String stanKlamki = klamka!= null ? klamka.stan() : "bez klamki";
+		return wymiary  +" "+ otwarcie +" "+ stanKlamki;
+	}
+}
+
+
+package homework.zad2;
+
+public class Test {
+	public static void main(String[] args) {
+		Okno okno1 = new Okno();
+		Okno okno2 = new Okno(1800,1800,3);
+		
+		okno1.otworz();
+		okno2.otworz(0);
+		okno2.otworz(2);
+		
+		okno1.wypiszStan();
+		okno2.wypiszStan();
+		
+		okno1.zamknij();
+		okno2.setDlugosc(2100);
+		okno2.zamknij(0);
+		Klamka kl = new Klamka();
+		kl.setCzyKluczyk(true);
+		okno2.getSkrzydla()[1].setKlamka(kl);
+		okno2.getSkrzydla()[2].setKlamka(null);
+		
+		okno1.wypiszStan();
+		okno2.wypiszStan();
+		
+	}
+}
