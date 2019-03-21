@@ -1,1 +1,44 @@
+package ZadaniaDomowe;
 
+import java.text.ParseException;
+import java.util.Scanner;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.format.TextStyle;
+
+
+public class Zadanie1 {
+	public static void main(String[] args) throws ParseException {
+		
+		 Scanner date2 = new Scanner(System.in);
+		    System.out.println("Podaj datę [dd.mm.yyyy] ");
+		    String time = date2.nextLine();
+		    date2.close();
+		    
+		    SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+		    String dateString = time;
+		    Date date1 = dateFormat.parse(dateString);
+		    
+		    System.out.println("to będzie: " + date1);
+
+		    Date date = new Date(date1.getTime());
+		    Calendar calendar = Calendar.getInstance();
+		    calendar.setTime(date);
+		    
+		    
+		    int x = calendar.get(Calendar.DAY_OF_WEEK);
+		    String xx = DayOfWeek.of(x).getDisplayName(TextStyle.FULL_STANDALONE, Locale.forLanguageTag("pl-PL"));
+		    
+		    System.out.println(xx);
+		    System.out.println("za rok: " + date);
+		    
+
+
+	}
+		
+	}
+	   
